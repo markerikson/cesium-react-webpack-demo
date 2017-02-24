@@ -8,6 +8,7 @@ const BING_MAPS_URL = "//dev.virtualearth.net";
 const BING_MAPS_KEY = "ApDPY15x9lCXO5Hw89M1G5Q84_BlKalPbjor8GvKGj2UAnVtzlT5UT-zrylU1e48";
 const STK_TERRAIN_URL = "//assets.agi.com/stk-terrain/world";
 
+import CesiumBillboardExample from "./CesiumBillboardExample";
 
 
 export default class CesiumGlobe extends Component {
@@ -56,8 +57,11 @@ export default class CesiumGlobe extends Component {
         let contents = null;
 
         if(viewerLoaded) {
+            const {scene} = this.viewer;
+
             contents = (
                 <span>
+                    <CesiumBillboardExample scene={scene} />
                 </span>
             );
         }
