@@ -64,7 +64,8 @@ module.exports = {
     filename: 'static/js/[name].[chunkhash:8].js',
     chunkFilename: 'static/js/[name].[chunkhash:8].chunk.js',
     // We inferred the "public path" (such as / or /my-project) from homepage.
-    publicPath: publicPath
+    publicPath: publicPath,
+    sourcePrefix : '',
   },
   resolve: {
     // This allows you to set a fallback for where Webpack should look for modules.
@@ -86,7 +87,9 @@ module.exports = {
   },
   
   module: {
-    // First, run the linter.
+    unknownContextCritical : false,
+
+      // First, run the linter.
     // It's important to do this before Babel processes the JS.
     preLoaders: [
       {
