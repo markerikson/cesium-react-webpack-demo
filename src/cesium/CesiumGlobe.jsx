@@ -41,6 +41,8 @@ export default class CesiumGlobe extends Component {
             terrainProvider,
         });
 
+        // Force immediate re-render now that the Cesium viewer is created
+        this.setState({viewerLoaded : true}); // eslint-disable-line react/no-did-mount-set-state
     }
 
     componentWillUnmount() {
@@ -48,6 +50,21 @@ export default class CesiumGlobe extends Component {
             this.viewer.destroy();
         }
     }
+
+    renderContents() {
+        const {viewerLoaded} = this.state;
+        let contents = null;
+
+        if(viewerLoaded) {
+            contents = (
+                <span>
+                </span>
+            );
+        }
+
+        return contents;
+    }
+
     render() {
         const containerStyle = {
             width: '100%',
@@ -65,13 +82,17 @@ export default class CesiumGlobe extends Component {
             flexGrow : 2
         }
 
+        const contents = this.renderContents()
+
         return (
             <div className="cesiumGlobeWrapper" style={containerStyle}>
                 <div
                     className="cesiumWidget"
                     ref={ element => this.cesiumContainer = element }
                     style={widgetStyle}
-                />
+                >
+                    {contents}
+                </div>
             </div>
         );
     }
