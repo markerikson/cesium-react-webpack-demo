@@ -3,17 +3,19 @@ import React, { Component } from 'react';
 
 import CesiumGlobe from "./cesium/CesiumGlobe";
 
+import reactLogo from "logo.svg";
+import redsLogo from "./redsLogo.png";
+
 
 class App extends Component {
-    state = {logoCoords : null}
-
-    onMoveLogoClicked = () => {
-        const logoCoords = {lat : 39.097465, lon : -84.50703};
-        this.setState({logoCoords});
+    state = {
+        reactLogo : {lat : 37.484505, lon : -122.147877, image : reactLogo},
+        redsLogo : { lat : 39.097465, lon : -84.50703, image : redsLogo, scale : 0.3}
     }
 
+
     render() {
-        const {logoCoords} = this.state;
+        const {reactLogo, redsLogo} = this.state;
 
         const containerStyle = {
             width: '100%',
@@ -25,19 +27,15 @@ class App extends Component {
             position: 'fixed',
         };
 
+        const icons = [reactLogo, redsLogo];
+
         return (
             <div style={containerStyle}>
-                <CesiumGlobe logoCoords={logoCoords} />
+                <CesiumGlobe icons={icons} />
                 <div style={{position : "fixed", top : 0}}>
                     <div style={{color : "white", fontSize: 40, }}>
                         Text Over the Globe
                     </div>
-                    <button
-                        onClick={this.onMoveLogoClicked}
-                        style={{fontSize: 40}}
-                    >
-                        Move Logo
-                    </button>
                 </div>
 
             </div>
