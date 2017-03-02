@@ -23,3 +23,7 @@ export function shallowEqual(objA, objB) {
 };
 
 export const noop = () => {};
+
+export function isUndefined(value) {
+    return value === undefined;
+}
