@@ -21,3 +21,5 @@ export function shallowEqual(objA, objB) {
 
     return true;
 };
+
+export const noop = () => {};
