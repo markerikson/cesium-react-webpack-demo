@@ -2,9 +2,11 @@ import React, {Component} from "react";
 
 import BillboardCollection from "cesium/Source/Scene/BillboardCollection";
 import LabelCollection from "cesium/Source/Scene/LabelCollection";
+import PolylineCollection from "cesium/Source/Scene/PolylineCollection";
 
 import CesiumBillboard from "./primitives/CesiumBillboard";
 import CesiumLabel from "./primitives/CesiumLabel";
+import CesiumPolyline from "./primitives/CesiumPolyline";
 
 export class CesiumProjectContents extends Component {
     constructor(props) {
@@ -12,8 +14,9 @@ export class CesiumProjectContents extends Component {
 
         this.billboards = new BillboardCollection();
         this.labels = new LabelCollection();
+        this.polylines = new PolylineCollection();
 
-        this.primitiveCollections = [this.billboards, this.labels]
+        this.primitiveCollections = [this.billboards, this.labels, this.polylines];
 
         const {scene} = props;
 
@@ -38,7 +41,7 @@ export class CesiumProjectContents extends Component {
     }
 
     render() {
-        const {icons = [], labels = []} = this.props;
+        const {icons = [], labels = [], polylines = []} = this.props;
 
         const renderedBillboards = icons.map( (icon, index) =>
             <CesiumBillboard
@@ -56,11 +59,20 @@ export class CesiumProjectContents extends Component {
             />
         );
 
+        const renderedPolylines = polylines.map( (polyline, index) =>
+            <CesiumPolyline
+                coords={polyline}
+                polylines={this.polylines}
+                key={index}
+            />
+        );
+
 
         return (
             <span>
                 {renderedBillboards}
                 {renderedLabels}
+                {renderedPolylines}
             </span>
         );
     }

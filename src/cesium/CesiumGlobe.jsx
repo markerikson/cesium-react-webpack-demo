@@ -60,11 +60,16 @@ export default class CesiumGlobe extends Component {
 
         if(viewerLoaded) {
             const {scene} = this.viewer;
-            const {icons, labels} = this.props;
+            const {icons, labels, polylines} = this.props;
 
             contents = (
                 <span>
-                    <CesiumProjectContents scene={scene} icons={icons} labels={labels} />
+                    <CesiumProjectContents
+                        scene={scene}
+                        icons={icons}
+                        labels={labels}
+                        polylines={polylines}
+                    />
                 </span>
             );
         }
