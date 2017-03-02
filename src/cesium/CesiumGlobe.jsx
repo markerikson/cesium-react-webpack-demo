@@ -9,7 +9,7 @@ const BING_MAPS_KEY = "ApDPY15x9lCXO5Hw89M1G5Q84_BlKalPbjor8GvKGj2UAnVtzlT5UT-zr
 const STK_TERRAIN_URL = "//assets.agi.com/stk-terrain/world";
 
 import CesiumProjectContents from "./CesiumProjectContents";
-
+import CesiumClickHandler from "./CesiumClickHandler";
 
 
 
@@ -60,7 +60,7 @@ export default class CesiumGlobe extends Component {
 
         if(viewerLoaded) {
             const {scene} = this.viewer;
-            const {icons, labels, polylines} = this.props;
+            const {icons, labels, polylines, onLeftClick} = this.props;
 
             contents = (
                 <span>
@@ -69,6 +69,10 @@ export default class CesiumGlobe extends Component {
                         icons={icons}
                         labels={labels}
                         polylines={polylines}
+                    />
+                    <CesiumClickHandler
+                        scene={scene}
+                        onLeftClick={onLeftClick}
                     />
                 </span>
             );

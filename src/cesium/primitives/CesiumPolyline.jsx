@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import {Component} from "react";
 
 import Cartographic from "cesium/Source/Core/Cartographic";
 import Color from "cesium/Source/Core/Color";
@@ -9,7 +9,7 @@ import {shallowEqual} from "utils/utils";
 
 export default class CesiumPolyline extends Component {
     componentDidMount() {
-        const {polylines, coords} = this.props;
+        const {polylines} = this.props;
 
         if(polylines) {
             this.polyline = polylines.add({
