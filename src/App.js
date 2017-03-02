@@ -10,12 +10,13 @@ import redsLogo from "./redsLogo.png";
 class App extends Component {
     state = {
         reactLogo : {lat : 37.484505, lon : -122.147877, image : reactLogo},
-        redsLogo : { lat : 39.097465, lon : -84.50703, image : redsLogo, scale : 0.3}
+        redsLogo : { lat : 39.097465, lon : -84.50703, image : redsLogo, scale : 0.3},
+        label : {lat : 35.0, lon : -100.0, text : "Catch phrase here"}
     }
 
 
     render() {
-        const {reactLogo, redsLogo} = this.state;
+        const {reactLogo, redsLogo, label} = this.state;
 
         const containerStyle = {
             width: '100%',
@@ -28,10 +29,11 @@ class App extends Component {
         };
 
         const icons = [reactLogo, redsLogo];
+        const labels = [label]
 
         return (
             <div style={containerStyle}>
-                <CesiumGlobe icons={icons} />
+                <CesiumGlobe icons={icons} labels={labels} />
                 <div style={{position : "fixed", top : 0}}>
                     <div style={{color : "white", fontSize: 40, }}>
                         Text Over the Globe

@@ -1,38 +1,44 @@
 import React, {Component} from "react";
 
 import BillboardCollection from "cesium/Source/Scene/BillboardCollection";
+import LabelCollection from "cesium/Source/Scene/LabelCollection";
 
 import CesiumBillboard from "./primitives/CesiumBillboard";
+import CesiumLabel from "./primitives/CesiumLabel";
 
 export class CesiumProjectContents extends Component {
     constructor(props) {
         super(props);
 
         this.billboards = new BillboardCollection();
+        this.labels = new LabelCollection();
+
+        this.primitiveCollections = [this.billboards, this.labels]
 
         const {scene} = props;
 
         if(scene) {
-            scene.primitives.add(this.billboards);
+            this.primitiveCollections.forEach(primitiveCollection => scene.primitives.add(primitiveCollection));
         }
     }
 
     componentWillUnmount() {
-        const {billboards} = this;
 
-        if(!billboards.isDestroyed()) {
-            billboards.destroy();
-        }
+        this.primitiveCollections.forEach(primitiveCollection => {
+            if(!primitiveCollection.isDestroyed()) {
+                primitiveCollection.destroy();
+            }
+        });
 
         const {scene} = this.props;
 
         if(scene && !scene.isDestroyed() && scene.primitives) {
-            scene.primitives.remove(billboards);
+            this.primitiveCollections.forEach(primitiveCollection => scene.primitives.remove(primitiveCollection));
         }
     }
 
     render() {
-        const {icons = []} = this.props;
+        const {icons = [], labels = []} = this.props;
 
         const renderedBillboards = icons.map( (icon, index) =>
             <CesiumBillboard
@@ -42,10 +48,19 @@ export class CesiumProjectContents extends Component {
             />
         );
 
+        const renderedLabels = labels.map( (label, index) =>
+            <CesiumLabel
+                {...label}
+                labels={this.labels}
+                key={index}
+            />
+        );
+
 
         return (
             <span>
                 {renderedBillboards}
+                {renderedLabels}
             </span>
         );
     }
