@@ -10,6 +10,7 @@ const STK_TERRAIN_URL = "//assets.agi.com/stk-terrain/world";
 
 import CesiumProjectContents from "./CesiumProjectContents";
 import CesiumClickHandler from "./CesiumClickHandler";
+import CesiumCameraManager from "./CesiumCameraManager";
 
 
 
@@ -60,7 +61,7 @@ export default class CesiumGlobe extends Component {
 
         if(viewerLoaded) {
             const {scene} = this.viewer;
-            const {icons, labels, polylines, onLeftClick} = this.props;
+            const {icons, labels, polylines, onLeftClick, flyToLocation} = this.props;
 
             contents = (
                 <span>
@@ -73,6 +74,10 @@ export default class CesiumGlobe extends Component {
                     <CesiumClickHandler
                         scene={scene}
                         onLeftClick={onLeftClick}
+                    />
+                    <CesiumCameraManager
+                        camera={scene.camera}
+                        flyToLocation={flyToLocation}
                     />
                 </span>
             );
