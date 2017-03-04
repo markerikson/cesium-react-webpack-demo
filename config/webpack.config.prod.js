@@ -198,6 +198,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       inject: true,
       template: paths.appHtml,
+      production : true,
       minify: {
         removeComments: true,
         collapseWhitespace: true,
