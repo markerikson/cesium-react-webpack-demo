@@ -8,7 +8,8 @@
 
 # production
 /build
-/public/cesium/
+distdll/
+
 
 # misc
 .DS_Store
