@@ -18,6 +18,8 @@ var formatWebpackMessages = require('react-dev-utils/formatWebpackMessages');
 var getProcessForPort = require('react-dev-utils/getProcessForPort');
 var openBrowser = require('react-dev-utils/openBrowser');
 var prompt = require('react-dev-utils/prompt');
+var express = require("express");
+
 var fs = require('fs');
 var config = require('../config/webpack.config.dev');
 var paths = require('../config/paths');
@@ -151,6 +153,11 @@ function onProxyError(proxy) {
 }
 
 function addMiddleware(devServer) {
+
+  // Handle requests for Cesium static assets that we want to
+  // serve up direct from /node_modules/cesium/.
+  devServer.use("/cesium", express.static(paths.cesiumDebugBuild));
+
   // `proxy` lets you to specify a fallback server during development.
   // Every unrecognized request will be forwarded to it.
   var proxy = require(paths.appPackageJson).proxy;

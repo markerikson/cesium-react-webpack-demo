@@ -13,10 +13,13 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>React App</title>
+    <title>Cesium + React + Webpack Demo</title>
   </head>
   <body>
     <div id="root"></div>
+    <% if(htmlWebpackPlugin.options.production) { %>
+        <script src="cesium/cesiumDll.js"></script>
+    <% } %>
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.

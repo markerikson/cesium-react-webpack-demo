@@ -19,6 +19,7 @@ var paths = require('../config/paths');
 var checkRequiredFiles = require('react-dev-utils/checkRequiredFiles');
 var recursive = require('recursive-readdir');
 var stripAnsi = require('strip-ansi');
+var glob = require("glob");
 
 var useYarn = fs.existsSync(paths.yarnLockFile);
 
@@ -73,6 +74,8 @@ recursive(paths.appBuild, (err, fileNames) => {
 
   // Merge with the public folder
   copyPublicFolder();
+
+  copyCesium();
 });
 
 // Print a detailed summary of build files.
@@ -223,4 +226,35 @@ function copyPublicFolder() {
     dereference: true,
     filter: file => file !== paths.appHtml
   });
+}
+
+
+function copyCesium() {
+    const outputPath = path.join(paths.appBuild, "cesium");
+    const inputPath = path.cesiumProdBuild + "/**/*.js";
+
+    let globOptions = {
+        nodir : true,
+        cwd : "node_modules/cesium/Build/Cesium/",
+        ignore: ["*Cesium.js", "**/NaturalEarthII/**/*", "**/maki/**/*"]
+    };
+
+    glob("**/*", globOptions, function (er, files) {
+        // files is an array of filenames.
+        // If the `nonull` option is set, and nothing
+        // was found, then files is ["**/*.js"]
+        // er is an error object or null.
+
+        files.forEach(function (srcPath) {
+            let fullSrcPath = path.join("node_modules/cesium/Build/Cesium/", srcPath);
+            let fullDestPath = path.join(outputPath, srcPath);
+            fs.copySync(fullSrcPath, fullDestPath);
+        });
+    });
+
+    const cesiumDllPath = path.join(paths.app, "distdll/cesiumDll.js");
+    const cesiumOutputPath = path.join(outputPath, "cesiumDll.js");
+    fs.copySync(cesiumDllPath, cesiumOutputPath);
+
+    console.log("Cesium copied to output folder");
 }

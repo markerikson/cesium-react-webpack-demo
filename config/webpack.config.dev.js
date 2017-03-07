@@ -59,7 +59,8 @@ module.exports = {
     // containing code from all our entry points, and the Webpack runtime.
     filename: 'static/js/bundle.js',
     // This is the URL that app is served from. We use "/" in development.
-    publicPath: publicPath
+    publicPath: publicPath,
+    sourcePrefix : '',
   },
   resolve: {
     // This allows you to set a fallback for where Webpack should look for modules.
@@ -81,7 +82,9 @@ module.exports = {
   },
   
   module: {
-    // First, run the linter.
+    unknownContextCritical : false,
+
+      // First, run the linter.
     // It's important to do this before Babel processes the JS.
     preLoaders: [
       {

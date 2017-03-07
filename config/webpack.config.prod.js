@@ -1,3 +1,4 @@
+var path = require('path');
 var autoprefixer = require('autoprefixer');
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -64,7 +65,8 @@ module.exports = {
     filename: 'static/js/[name].[chunkhash:8].js',
     chunkFilename: 'static/js/[name].[chunkhash:8].chunk.js',
     // We inferred the "public path" (such as / or /my-project) from homepage.
-    publicPath: publicPath
+    publicPath: publicPath,
+    sourcePrefix : '',
   },
   resolve: {
     // This allows you to set a fallback for where Webpack should look for modules.
@@ -86,7 +88,9 @@ module.exports = {
   },
   
   module: {
-    // First, run the linter.
+    unknownContextCritical : false,
+
+      // First, run the linter.
     // It's important to do this before Babel processes the JS.
     preLoaders: [
       {
@@ -179,7 +183,12 @@ module.exports = {
     ];
   },
   plugins: [
-    // Makes some environment variables available in index.html.
+      new webpack.DllReferencePlugin({
+        context : paths.cesiumSourceFolder,
+          manifest: require(path.join(paths.app, "distdll/cesiumDLL-manifest.json")),
+      }),
+
+      // Makes some environment variables available in index.html.
     // The public URL is available as %PUBLIC_URL% in index.html, e.g.:
     // <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
     // In production, it will be an empty string unless you specify "homepage"
@@ -189,6 +198,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       inject: true,
       template: paths.appHtml,
+      production : true,
       minify: {
         removeComments: true,
         collapseWhitespace: true,
